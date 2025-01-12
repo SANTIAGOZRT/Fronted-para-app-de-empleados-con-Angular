@@ -13,7 +13,7 @@ import { Employee } from '../model/class/Employee';
 })
 export class MasterService {
   // Use your own CORS proxy
-  corsProxyUrl: string = 'http://localhost:8080/';
+  corsProxyUrl: string = 'https://cors-proxy-avym.onrender.com/';
   apiUrl: string = 'https://projectapi.gerasim.in/api/EmployeeManagement/';
 
   constructor(private http: HttpClient) {}
