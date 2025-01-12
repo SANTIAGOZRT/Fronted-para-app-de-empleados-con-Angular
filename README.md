@@ -17,7 +17,7 @@ Employee Management App is a web application (CRUD API Operation) built using An
 - **Standalone Components**: Components are defined as standalone, allowing for more modular and reusable code.
 - **Dependency Injection with `inject`**: Services are injected using the `inject` function, simplifying the dependency injection process.
 
-Please note that this project is intended for learning purposes and is currently a work in progress. As such, not all functionalities are fully operational, and occasional issues may arise, such as errors when fetching or deleting data due to API-related challenges.
+*Please note that this project is intended for learning purposes and is currently a work in progress. As such, not all functionalities are fully operational, and occasional issues may arise, such as errors when fetching or deleting data due to API-related challenges.*
 
 ## Project Structure
 
