@@ -4,7 +4,9 @@
 
 Employee Management App is a web application (CRUD API Operation) built using Angular 18. This application provides functionalities to manage employees and projects within an organization. It leverages the latest features of Angular 18, including standalone components and dependency injection using the `inject` function.
 
-**Online Live:** 
+**Online Live:** https://employee-management-app-arnob.vercel.app/
+
+**Backend CORS-Proxy-Server Source Code:** https://github.com/arnobt78/CORS-Proxy-Server-Employee-API
 
 ## Features
 
