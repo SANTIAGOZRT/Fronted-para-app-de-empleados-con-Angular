@@ -13,6 +13,7 @@ import { Employee } from '../model/class/Employee';
 })
 export class MasterService {
   // Use your own CORS proxy
+  // corsProxyUrl: string = 'http://localhost:8080/';
   corsProxyUrl: string = 'https://cors-proxy-avym.onrender.com/';
   apiUrl: string = 'https://projectapi.gerasim.in/api/EmployeeManagement/';
 
@@ -84,6 +85,12 @@ export class MasterService {
     );
   }
 
+  deleteProjectById(id: number): Observable<IApiResponse> {
+    return this.http.delete<IApiResponse>(
+      this.corsProxyUrl + this.apiUrl + 'DeleteProject/' + id
+    );
+  }
+
   getProjectEmp(): Observable<IProjectEmployee[]> {
     return this.http.get<IProjectEmployee[]>(
       this.corsProxyUrl + this.apiUrl + 'GetAllProjectEmployees'
@@ -104,6 +111,12 @@ export class MasterService {
         'UpdateProjectEmployee/' +
         obj.empProjectId,
       obj
+    );
+  }
+
+  deleteProjectEmpById(id: number): Observable<IApiResponse> {
+    return this.http.delete<IApiResponse>(
+      this.corsProxyUrl + this.apiUrl + 'DeleteProjectEmployee/' + id
     );
   }
 

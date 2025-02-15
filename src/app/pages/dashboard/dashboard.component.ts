@@ -1,21 +1,32 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MasterService } from '../../service/master.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [],
+  imports: [CommonModule], // Import CommonModule here
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css',
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  dashboardData: any;
+  dashboardData: any = {
+    totalEmployee: 0,
+    totalProject: 0,
+    activeProjectEmployees: 0,
+    recentProjects: [],
+    recentEmployee: [],
+  };
 
-  masterSrd = inject(MasterService);
+  constructor(private masterService: MasterService) {}
 
   ngOnInit(): void {
-    this.masterSrd.getDashboardData().subscribe((Res: any) => {
-      this.dashboardData = Res;
+    this.getDashboardData();
+  }
+
+  getDashboardData() {
+    this.masterService.getDashboardData().subscribe((data: any) => {
+      this.dashboardData = data;
     });
   }
 }

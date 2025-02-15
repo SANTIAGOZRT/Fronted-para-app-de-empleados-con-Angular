@@ -1,54 +1,31 @@
+import { Component, OnInit } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MasterService } from '../../service/master.service';
-import {
-  IApiResponse,
-  IChildDept,
-  IParentDept,
-} from '../../model/interface/master';
-import { FormsModule } from '@angular/forms';
 import { Employee } from '../../model/class/Employee';
-import { map, Observable, Subscription } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-employee',
   standalone: true,
-  imports: [FormsModule, AsyncPipe],
+  imports: [CommonModule, ReactiveFormsModule], // Import ReactiveFormsModule here
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EmployeeComponent implements OnInit, OnDestroy {
-  isFormVisiable = signal<boolean>(false);
-  masterSrv = inject(MasterService);
-
-  parentDept$: Observable<IParentDept[]> = new Observable<IParentDept[]>();
-
+export class EmployeeComponent implements OnInit {
+  employeeForm: FormGroup;
   employeeList: Employee[] = [];
-  childDeptList = signal<IChildDept[]>([]);
 
-  isLoader = signal<boolean>(true);
-  isApiCallInProgress = signal<boolean>(false);
-
-  parentDeptId: number = 0;
-  employeeObj: Employee = new Employee();
-
-  subscriptionList: Subscription[] = [];
-
-  constructor(private chageDetection: ChangeDetectorRef) {
-    this.parentDept$ = this.masterSrv.getAllDept().pipe(
-      map((data: IApiResponse) => {
-        return data.data;
-      })
-    );
+  constructor(private fb: FormBuilder, private masterService: MasterService) {
+    this.employeeForm = this.fb.group({
+      employeeId: [null], // Add employeeId to the form
+      employeeName: ['', Validators.required],
+      department: ['', Validators.required],
+    });
   }
 
   ngOnInit(): void {
@@ -56,70 +33,24 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   }
 
   getEmployees() {
-    this.subscriptionList.push(
-      this.masterSrv.getAllEmp().subscribe((res: Employee[]) => {
-        this.employeeList = res;
-        this.chageDetection.detectChanges();
-        this.isLoader.set(false);
-      })
-    );
+    this.masterService.getAllEmp().subscribe((res: Employee[]) => {
+      console.log(res); // Log the response to verify the data
+      this.employeeList = res;
+    });
   }
 
-  onParentDeptChange() {
-    const childDpet = this.masterSrv
-      .getChildDeptById(this.parentDeptId)
-      .subscribe((Res: IApiResponse) => {
-        this.childDeptList.set(Res.data);
-      });
-    this.subscriptionList.push(childDpet);
-  }
-
-  onSave() {
-    if (this.isApiCallInProgress() == false) {
-      this.isApiCallInProgress.set(true);
-      this.masterSrv.saveEmp(this.employeeObj).subscribe(
-        (res: IApiResponse) => {
-          alert('Employee Created');
-          this.getEmployees();
-          this.isApiCallInProgress.set(false);
-          this.employeeObj = new Employee();
-        },
-        (error) => {
-          alert('API Error');
-          this.isApiCallInProgress.set(false);
-        }
-      );
-    }
-  }
-
-  onEdit(data: Employee) {
-    this.employeeObj = data;
-    this.isFormVisiable.set(true);
-  }
-
-  onUpdate() {
-    this.masterSrv.updateEmp(this.employeeObj).subscribe(
-      (res: IApiResponse) => {
-        alert('Employee Updated');
-        this.getEmployees();
-        this.employeeObj = new Employee();
-      },
-      (error) => {
-        alert('API Error');
-      }
-    );
+  onEdit(employee: Employee) {
+    this.employeeForm.patchValue(employee);
   }
 
   onDelete(id: number) {
     const isDelete = confirm('Are you sure you want to delete?');
     if (isDelete) {
-      this.masterSrv.deleteEmpById(id).subscribe(
-        (res: IApiResponse) => {
-          const index = this.employeeList.findIndex(
-            (m: Employee) => m.employeeId == id
+      this.masterService.deleteEmpById(id).subscribe(
+        () => {
+          this.employeeList = this.employeeList.filter(
+            (emp) => emp.employeeId !== id
           );
-          this.employeeList.splice(index, 1);
-          this.chageDetection.detectChanges();
           alert('Employee Deleted');
         },
         (error) => {
@@ -129,9 +60,34 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.subscriptionList.forEach((sub: Subscription) => {
-      sub.unsubscribe();
-    });
+  onSave() {
+    if (this.employeeForm.valid) {
+      const employee = this.employeeForm.value;
+      if (employee.employeeId) {
+        // Update existing employee
+        this.masterService.updateEmp(employee).subscribe(
+          () => {
+            this.getEmployees();
+            this.employeeForm.reset();
+            alert('Employee Updated');
+          },
+          (error) => {
+            alert('API Error');
+          }
+        );
+      } else {
+        // Create new employee
+        this.masterService.saveEmp(employee).subscribe(
+          () => {
+            this.getEmployees();
+            this.employeeForm.reset();
+            alert('Employee Saved');
+          },
+          (error) => {
+            alert('API Error');
+          }
+        );
+      }
+    }
   }
 }

@@ -6,7 +6,7 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet, RouterLink],
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css',
+  styleUrls: ['./layout.component.css'], // Corrected 'styleUrl' to 'styleUrls'
 })
 export class LayoutComponent {
   router = inject(Router);

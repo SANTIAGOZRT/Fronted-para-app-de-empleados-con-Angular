@@ -32,7 +32,9 @@
         <div class="card-header">Active Project Employees</div>
         <div class="card-body">
           <h5 class="card-title">Active Employees</h5>
-          <p class="card-text" id="activeEmployees">0</p>
+          <p class="card-text" id="activeEmployees">
+            {{ dashboardData.activeProjectEmployees }}
+          </p>
         </div>
       </div>
     </div>
@@ -45,9 +47,12 @@
         <div class="card-header">Latest Projects</div>
         <div class="card-body">
           <ul id="latestProjects" class="list-group">
-            @for (item of dashboardData.recentProjects; track $index) {
-            <li class="mx-2">{{ item.projectName }}</li>
-            }
+            <li
+              *ngFor="let item of dashboardData.recentProjects"
+              class="list-group-item"
+            >
+              {{ item.projectName }}
+            </li>
           </ul>
         </div>
       </div>
@@ -59,9 +64,12 @@
         <div class="card-header">Recently Hired Employees</div>
         <div class="card-body">
           <ul id="recentEmployees" class="list-group">
-            @for (item of dashboardData.recentEmployee; track $index) {
-            <li class="mx-2">{{ item.employeeName }}</li>
-            }
+            <li
+              *ngFor="let item of dashboardData.recentEmployee"
+              class="list-group-item"
+            >
+              {{ item.employeeName }}
+            </li>
           </ul>
         </div>
       </div>

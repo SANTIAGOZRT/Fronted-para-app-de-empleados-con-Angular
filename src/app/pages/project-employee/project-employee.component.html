@@ -1,89 +1,100 @@
-<div class="row">
-    <div class="col-8">
-        <div class="card">
-            <div class="card-header bg-warning">
-                <h5>Project Employee List</h5>
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Emp Project ID</th>
-                            <th>Project Name</th>
-                            <th>Lead By</th>
-                            <th>Assigned Date</th>
-                            <th>Role</th> 
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (item of projectEmployeeList(); track $index) {
-                            <tr>
-                                <td>{{$index+1}}</td>
-                                <td>{{item.projectName}}</td>
-                                <td>{{item.employeeName}}</td>
-                                <td>{{item.assignedDate}}</td> 
-                                <td>{{item.role}}</td>
-                                <td>{{item.role}}</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary mt-3"  >Edit</button>
-                                    <button type="button" class="btn btn-danger mt-3"  >Delete</button>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-       
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Project Employee List</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Emp Project ID</th>
+            <th>Project Name</th>
+            <th>Lead By</th>
+            <th>Assigned Date</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of projectEmployeeList">
+            <td>{{ item.empProjectId }}</td>
+            <td>{{ item.projectName }}</td>
+            <td>{{ item.employeeName }}</td>
+            <td>{{ item.assignedDate }}</td>
+            <td>{{ item.role }}</td>
+            <td>
+              <button class="btn btn-primary" (click)="onEdit(item)">
+                Edit
+              </button>
+              <button
+                class="btn btn-danger"
+                (click)="onDelete(item.empProjectId)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="col-4">
-         <div class="card">
-            <div class="card-header bg-warning">
-                <h5>Add New Project Employee</h5>
-            </div>
-            <div class="card-body">
-                <form class="mb-4" [formGroup]="form">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="projectId" class="form-label">Project ID</label>
-                            <select class="form-select" formControlName="projectId" > 
-                                <option value=""> Select</option>
-                                @for (item of projectList$ |async; track $index) {
-                                    <option [value]="item.projectId"> {{item.projectName}}</option>
-                                }
-                            </select>
-                            
-                        </div>
-                        <div class="col-md-6">
-                            <label for="empId" class="form-label">Employee ID</label>
-                            <select class="form-select" formControlName="empId" > 
-                                <option value=""> Select</option>
-                                @for (item of EmpList$ |async; track $index) {
-                                    <option [value]="item.employeeId"> {{item.employeeName}}</option>
-                                }
-                            </select>
-                            
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="assignedDate" class="form-label">Assigned Date</label>
-                            <input type="date" class="form-control" formControlName="assignedDate" id="assignedDate">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="roleProjectEmployee" class="form-label">Role</label>
-                            <input type="text" class="form-control" formControlName="role" id="roleProjectEmployee" placeholder="Enter role">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="roleProjectEmployee" class="form-label">Role</label>
-                            <input type="checkbox"  formControlName="isActive" id="roleProjectEmployee" placeholder="Enter role">
-                        </div>
-                    </div>
-                    <button type="button" (click)="onSave()" class="btn btn-primary mt-3 mx-2">Submit</button>
-                </form>
-            </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Add/Edit Project Employee</h2>
+      <form [formGroup]="projectEmployeeForm">
+        <div class="mb-3">
+          <label for="projectId" class="form-label">Project ID</label>
+          <select
+            class="form-select"
+            id="projectId"
+            formControlName="projectId"
+          >
+            <option value="">Select</option>
+            <option
+              *ngFor="let project of projectList$ | async"
+              [value]="project.projectId"
+            >
+              {{ project.projectName }}
+            </option>
+          </select>
         </div>
+        <div class="mb-3">
+          <label for="empId" class="form-label">Employee ID</label>
+          <select class="form-select" id="empId" formControlName="empId">
+            <option value="">Select</option>
+            <option
+              *ngFor="let emp of empList$ | async"
+              [value]="emp.employeeId"
+            >
+              {{ emp.employeeName }}
+            </option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="assignedDate" class="form-label">Assigned Date</label>
+          <input
+            type="date"
+            class="form-control"
+            id="assignedDate"
+            formControlName="assignedDate"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="role" class="form-label">Role</label>
+          <input
+            type="text"
+            class="form-control"
+            id="role"
+            formControlName="role"
+            placeholder="Enter role"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="isActive" class="form-label">Active</label>
+          <input type="checkbox" id="isActive" formControlName="isActive" />
+        </div>
+        <button type="button" class="btn btn-primary" (click)="onSave()">
+          Submit
+        </button>
+      </form>
     </div>
+  </div>
 </div>
- 
