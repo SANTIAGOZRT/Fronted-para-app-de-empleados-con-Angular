@@ -1,25 +1,59 @@
-## Employee Management App (Angular v18)
+# Employee Management App (Angular v18)
 
 <img width="513" alt="Screenshot 2025-01-12 at 16 24 10" src="https://github.com/user-attachments/assets/8654f8cf-2b7a-44b2-a70c-26c1afa8a884" /> <img width="1196" alt="Screenshot 2025-01-12 at 16 24 49" src="https://github.com/user-attachments/assets/6feaa915-16f5-46c8-b57f-40288202dadf" /> <img width="1208" alt="Screenshot 2025-01-12 at 16 25 32" src="https://github.com/user-attachments/assets/578e95bb-a5c5-4a72-a17b-2a955cc89d49" /> <img width="1212" alt="Screenshot 2025-01-12 at 16 26 12" src="https://github.com/user-attachments/assets/e514b14e-b07f-4a7f-9203-b2850c5e78c0" /> <img width="1216" alt="Screenshot 2025-01-12 at 16 26 27" src="https://github.com/user-attachments/assets/18ea56cb-ccc3-42a1-888d-88490c9feab0" /> <img width="1212" alt="Screenshot 2025-01-12 at 16 26 48" src="https://github.com/user-attachments/assets/3d5402d3-dc6f-47a4-8399-2f732f9e49b7" />
 
-Employee Management App is a web application (CRUD API Operation) built using Angular 18. This application provides functionalities to manage employees and projects within an organization. It leverages the latest features of Angular 18, including standalone components and dependency injection using the `inject` function.
+## Project Overview
 
-**Online Live:** https://employee-management-app-arnob.vercel.app/
+**Employee Management App** is a modern web application designed to streamline the management of employees and projects within an organization. Built with the latest Angular 18, it provides a clean, responsive UI and robust features for CRUD (Create, Read, Update, Delete) operations. This project is ideal for learning Angular’s new features, as well as for organizations looking for a scalable solution to manage their workforce and projects.
 
-**Backend CORS-Proxy-Server Source Code:** https://github.com/arnobt78/CORS-Proxy-Server-Employee-API
+- **Live Demo:** https://employee-management-app-arnob.vercel.app/
+
+- **Backend CORS-Proxy-Server Source Code:** https://github.com/arnobt78/CORS-Proxy-Server-Employee-API
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
+- [How to Run](#how-to-run)
+- [Development Instructions](#development-instructions)
+- [Project Walkthrough](#project-walkthrough)
+- [Keywords](#keywords)
+- [Further Help](#further-help)
+
+---
 
 ## Features
 
-- **Employee Management**: Add, update, delete, and view employees.
-- **Project Management**: Add, update, delete, and view projects.
-- **Dashboard**: View summary statistics such as total employees, total projects, and recent activities.
+- **Employee Management:**  
+  - Add, view, update, and delete employee records.
+- **Project Management:**  
+  - Add, view, update, and delete project records.
+- **Dashboard:**  
+  - Real-time summary of total employees, total projects, and recent activities.
+- **Modern Angular 18 Features:**  
+  - Standalone components for modularity.
+  - DI with the new `inject` function.
+- **User-Friendly UI:**  
+  - Responsive design with intuitive navigation.
+- **Live Demo Access:**  
+  - Try the app instantly online.
 
-## Angular 18 Features Used
+---
 
-- **Standalone Components**: Components are defined as standalone, allowing for more modular and reusable code.
-- **Dependency Injection with `inject`**: Services are injected using the `inject` function, simplifying the dependency injection process.
+## Technologies Used
 
-*Please note that this project is intended for learning purposes and is currently a work in progress. As such, not all functionalities are fully operational, and occasional issues may arise, such as errors when fetching or deleting data due to API-related challenges.*
+- **Frontend:** Angular v18, TypeScript, RxJS, Angular CLI
+- **Backend API:** https://projectapi.gerasim.in/index.html (via custom CORS-Proxy)
+- **State Management:** Angular services
+- **Styling:** CSS (custom)
+- **Testing:** Karma, Jasmine (unit & e2e)
+- **Deployment:** Vercel
+
+---
 
 ## Project Structure
 
@@ -53,52 +87,135 @@ employee_management_app_angular18-main/
 ├── package.json
 ```
 
+---
+
 ## API Endpoints
 
-The application interacts with a backend API hosted at `https://projectapi.gerasim.in/index.html`. Below are the API endpoints used in the application:
+All backend requests are routed through a proxy to:  
+`https://projectapi.gerasim.in/index.html`
 
-- **Get All Departments**: `GET /GetParentDepartment`
-- **Get Child Departments by Parent ID**: `GET /GetChildDepartmentByParentId?deptId={deptId}`
-- **Create Employee**: `POST /CreateEmployee`
-- **Get All Employees**: `GET /GetAllEmployees`
-- **Update Employee**: `PUT /UpdateEmployee/{employeeId}`
-- **Delete Employee**: `DELETE /DeleteEmployee/{id}`
-- **Create Project**: `POST /CreateProject`
-- **Update Project**: `PUT /UpdateProject/{projectId}`
-- **Get All Projects**: `GET /GetAllProjects`
-- **Get Project by ID**: `GET /GetProject/{id}`
-- **Get All Project Employees**: `GET /GetAllProjectEmployees`
-- **Create Project Employee**: `POST /CreateProjectEmployee`
-- **Update Project Employee**: `PUT /UpdateProjectEmployee/{empProjectId}`
-- **Get Dashboard Data**: `GET /GetDashboard`
+**Endpoints used:**
 
-## Running the Project
+- `GET /GetParentDepartment` – Fetch all departments
+- `GET /GetChildDepartmentByParentId?deptId={deptId}` – Fetch child departments
+- `POST /CreateEmployee` – Create new employee
+- `GET /GetAllEmployees` – List all employees
+- `PUT /UpdateEmployee/{employeeId}` – Update employee
+- `DELETE /DeleteEmployee/{id}` – Delete employee
+- `POST /CreateProject` – Create new project
+- `PUT /UpdateProject/{projectId}` – Update project
+- `GET /GetAllProjects` – List all projects
+- `GET /GetProject/{id}` – Get project details
+- `GET /GetAllProjectEmployees` – List all project-employee assignments
+- `POST /CreateProjectEmployee` – Assign employee to project
+- `PUT /UpdateProjectEmployee/{empProjectId}` – Update project-employee assignment
+- `GET /GetDashboard` – Dashboard summary
 
-1. **Install Dependencies**: Run `npm install` to install all required dependencies.
-2. **Start the Development Server**: Run `ng serve` to start the development server. The application will be available at `http://localhost:4200`.
+---
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.0.
+## How to Run
 
-## Development server
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/arnobt78/Employee-Management--Angular18.git
+   cd Employee-Management--Angular18
+   ```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-## Code scaffolding
+3. **Run the Development Server**
+   ```bash
+   ng serve
+   ```
+   Open your browser and visit http://localhost:4200
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+4. **Build for Production**
+   ```bash
+   ng build
+   ```
+   Production-ready code will be generated in the `/dist` folder.
 
-## Build
+---
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Development Instructions
 
-## Running unit tests
+- **Development Server:**  
+  Run `ng serve` to start the dev server. The app auto-reloads when you change source files.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- **Scaffold New Components/Services:**  
+  Use Angular CLI:
+  ```
+  ng generate component component-name
+  ng generate service service-name
+  ```
 
-## Running end-to-end tests
+- **Running Unit Tests:**  
+  ```
+  ng test
+  ```
+  Runs unit tests via https://karma-runner.github.io
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- **End-to-End (E2E) Testing:**  
+  ```
+  ng e2e
+  ```
+  Runs e2e tests (ensure e2e packages are installed and configured).
 
-## Further help
+---
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Project Walkthrough
+
+1. **Dashboard:**  
+   View summary info on employees, projects, and activities.
+
+2. **Manage Employees:**  
+   - Add/Edit employee details (name, department, etc.).
+   - View all employees in list/table.
+   - Delete employees as needed.
+
+3. **Manage Projects:**  
+   - Add/Edit projects with relevant info.
+   - Assign employees to projects.
+   - View all projects and details.
+
+4. **Department Hierarchy:**  
+   - Departments and sub-departments are fetched via API.
+   - Assign employees to departments.
+
+5. **Modern Angular Practices:**  
+   - Uses standalone Angular components for easier maintenance.
+   - Leverages Angular 18's new dependency injection syntax (`inject()`).
+   - Organized folder structure for scalability.
+
+6. **Screenshots:**  
+  
+   Look above
+
+---
+
+## Keywords
+
+`Angular18`, `Employee Management`, `Project Management`, `CRUD`, `Dashboard`, `Modern Angular`, `Standalone Components`, `TypeScript`, `API Integration`, `Responsive UI`, `Learning Project`, `Vercel`, `Karma`, `Jasmine`
+
+---
+
+## Further Help
+
+- For Angular CLI guidance, use:
+  ```
+  ng help
+  ```
+  or visit [Angular CLI Documentation](https://angular.io/cli)
+
+- For backend proxy code, see:  
+  [CORS-Proxy-Server-Employee-API](https://github.com/arnobt78/CORS-Proxy-Server-Employee-API)
+
+---
+
+## Notes
+
+- This project is intended for learning and demonstration. Some functionalities may still be in development.
+- If you encounter issues or have suggestions, feel free to open an issue or contribute!
